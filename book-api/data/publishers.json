@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "name": "Editorial Sudamericana",
+    "country": "Argentina",
+    "foundationYear": 1939
+  },
+  {
+    "id": "2",
+    "name": "Secker & Warburg",
+    "country": "Reino Unido",
+    "foundationYear": 1935
+  }
+]

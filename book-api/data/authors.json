@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "name": "Gabriel García Márquez",
+    "nationality": "Colombiano",
+    "birthYear": 1927
+  },
+  {
+    "id": "2",
+    "name": "George Orwell",
+    "nationality": "Británico",
+    "birthYear": 1903
+  }
+]

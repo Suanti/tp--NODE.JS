@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "Cien años de soledad",
+    "authorId": "1",
+    "publisherId": "1",
+    "year": 1967,
+    "genre": "Realismo mágico",
+    "isbn": "978-0307474728"
+  },
+  {
+    "id": "2",
+    "title": "1984",
+    "authorId": "2",
+    "publisherId": "2",
+    "year": 1949,
+    "genre": "Distopía",
+    "isbn": "978-0451524935"
+  }
+]
