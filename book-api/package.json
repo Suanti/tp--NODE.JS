@@ -1,0 +1,24 @@
+{
+  "name": "tp-node",
+  "version": "1.0.0",
+  "description": "API de Gestión de Biblioteca con servidor TCP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "client": "node client.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "biblioteca",
+    "api",
+    "tcp",
+    "node"
+  ],
+  "author": "TuNombre",
+  "license": "ISC",
+  "dependencies": {
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {},
+  "type": "commonjs"
+}
