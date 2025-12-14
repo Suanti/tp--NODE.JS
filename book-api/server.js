@@ -39,62 +39,81 @@ const server = net.createServer((socket) => {
 
 // Función para procesar comandos
 function processCommand(command) {
-  const parts = command.split('|');
-  const action = parts[0].toUpperCase();
+  try {
+    // Si el comando está vacío
+    if (!command || command.trim() === '') {
+      return 'ERROR: Comando vacío. Envíe un comando válido.';
+    }
 
-  switch (action) {
-    // === COMANDOS DE LIBROS ===
-    case 'GET BOOKS':
-      return BookController.getAllBooks();
+    const parts = command.split('|');
+    const action = parts[0].toUpperCase();
     
-    case 'GET BOOK_BY_ID':
-      if (parts.length < 2) return 'ERROR: Faltó el ID del libro';
-      return BookController.getBookById(parts[1]);
-    
-    case 'GET BOOKS_BY_TITLE':
-      if (parts.length < 2) return 'ERROR: Faltó el título';
-      return BookController.getBooksByTitle(parts[1]);
-    
-    case 'ADD_BOOK':
-      if (parts.length < 7) return 'ERROR: Formato: ADD_BOOK|título|autorId|editorialId|año|género|ISBN';
-      const bookData = {
-        title: parts[1],
-        authorId: parts[2],
-        publisherId: parts[3],
-        year: parseInt(parts[4]),
-        genre: parts[5],
-        isbn: parts[6]
-      };
-      return BookController.addBook(bookData);
+    // Validar formato básico para comandos ADD
+    if (action.includes('ADD') && parts.length < 2) {
+      return 'ERROR: Formato incorrecto. Revise la sintaxis del comando.';
+    }
 
-    // === COMANDOS DE AUTORES ===
-    case 'GET AUTHORS':
-      return AuthorController.getAllAuthors();
-    
-    case 'ADD_AUTHOR':
-      if (parts.length < 4) return 'ERROR: Formato: ADD_AUTHOR|nombre|nacionalidad|añoNacimiento';
-      const authorData = {
-        name: parts[1],
-        nationality: parts[2],
-        birthYear: parseInt(parts[3])
-      };
-      return AuthorController.addAuthor(authorData);
+    switch (action) {
+      // === COMANDOS DE LIBROS ===
+      case 'GET BOOKS':
+        return BookController.getAllBooks();
+      
+      case 'GET BOOK_BY_ID':
+        if (parts.length < 2) return 'ERROR: Faltó el ID del libro';
+        return BookController.getBookById(parts[1]);
+      
+      case 'GET BOOKS_BY_TITLE':
+        if (parts.length < 2) return 'ERROR: Faltó el título';
+        return BookController.getBooksByTitle(parts[1]);
+      
+      case 'ADD_BOOK':
+        if (parts.length < 7) return 'ERROR: Formato: ADD_BOOK|título|autorId|editorialId|año|género|ISBN';
+        const bookData = {
+          title: parts[1],
+          authorId: parts[2],
+          publisherId: parts[3],
+          year: parseInt(parts[4]),
+          genre: parts[5],
+          isbn: parts[6]
+        };
+        const addBookResult = BookController.addBook(bookData);
+        return addBookResult || 'ERROR: No se pudo agregar el libro';
 
-    // === COMANDOS DE EDITORIALES ===
-    case 'GET PUBLISHERS':
-      return PublisherController.getAllPublishers();
-    
-    case 'ADD_PUBLISHER':
-      if (parts.length < 4) return 'ERROR: Formato: ADD_PUBLISHER|nombre|país|añoFundación';
-      const publisherData = {
-        name: parts[1],
-        country: parts[2],
-        foundationYear: parseInt(parts[3])
-      };
-      return PublisherController.addPublisher(publisherData);
+      // === COMANDOS DE AUTORES ===
+      case 'GET AUTHORS':
+        return AuthorController.getAllAuthors();
+      
+      case 'ADD_AUTHOR':
+        if (parts.length < 4) return 'ERROR: Formato: ADD_AUTHOR|nombre|nacionalidad|añoNacimiento';
+        const authorData = {
+          name: parts[1],
+          nationality: parts[2],
+          birthYear: parseInt(parts[3])
+        };
+        const addAuthorResult = AuthorController.addAuthor(authorData);
+        return addAuthorResult || 'ERROR: No se pudo agregar el autor';
 
-    default:
-      return 'ERROR: Comando no reconocido. Use GET BOOKS, ADD_BOOK, etc.';
+      // === COMANDOS DE EDITORIALES ===
+      case 'GET PUBLISHERS':
+        return PublisherController.getAllPublishers();
+      
+      case 'ADD_PUBLISHER':
+        if (parts.length < 4) return 'ERROR: Formato: ADD_PUBLISHER|nombre|país|añoFundación';
+        const publisherData = {
+          name: parts[1],
+          country: parts[2],
+          foundationYear: parseInt(parts[3])
+        };
+        const addPublisherResult = PublisherController.addPublisher(publisherData);
+        return addPublisherResult || 'ERROR: No se pudo agregar la editorial';
+
+      default:
+        return 'ERROR: Comando no reconocido. Use GET BOOKS, ADD_BOOK, etc.';
+    }
+    
+  } catch (error) {
+    console.error('Error crítico en processCommand:', error);
+    return `ERROR CRÍTICO: ${error.message}`;
   }
 }
 
@@ -112,25 +131,3 @@ server.on('error', (err) => {
     console.log(`El puerto ${PORT} ya está en uso. Intenta con otro puerto.`);
   }
 });
-function processCommand(command) {
-  try {
-    // Si el comando está vacío
-    if (!command || command.trim() === '') {
-      return 'ERROR: Comando vacío. Envíe un comando válido.';
-    }
-
-    const parts = command.split('|');
-    const action = parts[0].toUpperCase();
-    
-    // Validar formato básico
-    if (action.includes('ADD') && parts.length < 2) {
-      return 'ERROR: Formato incorrecto. Revise la sintaxis del comando.';
-    }
-    
-    // Resto del switch case que ya tienes...
-    
-  } catch (error) {
-    console.error('Error crítico en processCommand:', error);
-    return `ERROR CRÍTICO: ${error.message}`;
-  }
-}
