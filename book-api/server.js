@@ -28,7 +28,7 @@ const server = net.createServer((socket) => {
 
   // Manejar desconexión
   socket.on('end', () => {
-    console.log('🔌 Cliente desconectado');
+    console.log(' Cliente desconectado');
   });
 
   // Manejar errores
@@ -112,3 +112,25 @@ server.on('error', (err) => {
     console.log(`El puerto ${PORT} ya está en uso. Intenta con otro puerto.`);
   }
 });
+function processCommand(command) {
+  try {
+    // Si el comando está vacío
+    if (!command || command.trim() === '') {
+      return 'ERROR: Comando vacío. Envíe un comando válido.';
+    }
+
+    const parts = command.split('|');
+    const action = parts[0].toUpperCase();
+    
+    // Validar formato básico
+    if (action.includes('ADD') && parts.length < 2) {
+      return 'ERROR: Formato incorrecto. Revise la sintaxis del comando.';
+    }
+    
+    // Resto del switch case que ya tienes...
+    
+  } catch (error) {
+    console.error('Error crítico en processCommand:', error);
+    return `ERROR CRÍTICO: ${error.message}`;
+  }
+}
